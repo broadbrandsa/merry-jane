@@ -84,7 +84,7 @@ export function NextSteps() {
                   className="mt-4 font-display text-[2.5rem] md:text-[3.4rem] text-bone tracking-[-0.02em] leading-[0.98] text-balance"
                   style={{ fontWeight: 360 }}
                 >
-                  Walk through this proposal live — with DSG, your legal advisor, and the phase-one owner in the room.
+                  Walk through this proposal live — with Broadbrand, your legal advisor, and the phase-one owner in the room.
                 </h3>
               </div>
               <div className="lg:col-span-4 flex flex-col gap-4">
@@ -92,7 +92,7 @@ export function NextSteps() {
                   href={`mailto:${siteMeta.contactEmail}?subject=Merry-Jane%20proposal%20review`}
                   className="group inline-flex items-center justify-between gap-4 rounded-full bg-bone text-ink pl-6 pr-2 py-2 transition-colors duration-200 hover:bg-ochre"
                 >
-                  <span className="text-[0.925rem]">Email DSG</span>
+                  <span className="text-[0.925rem]">Email Broadbrand</span>
                   <span className="flex size-9 items-center justify-center rounded-full bg-ink text-bone transition-transform duration-200 group-hover:translate-x-0.5">
                     ↗
                   </span>

@@ -33,7 +33,7 @@ This is not a consumer-facing site. It is a stakeholder deliverable.
 ## Owner
 
 - **Prepared by**: DSG (Digital Strategy Group)
-- **Contact**: mikee@dsg.co.za
+- **Contact**: Shakierg@broadbrand.co.za
 - **For**: Merry-Jane — merry-jane.com
 - **Date**: April 2026
 

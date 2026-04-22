@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
 import { Container } from "@/components/container";
 import { Reveal } from "@/components/reveal";
 import { siteMeta } from "@/content/site";
@@ -14,12 +12,10 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <Nav />
-      <main className="flex-1">
-        <section className="pt-40 md:pt-48 pb-24 md:pb-32 relative overflow-hidden grain hero-glow">
+      <section className="pt-40 md:pt-48 pb-24 md:pb-32 relative overflow-hidden grain hero-glow">
           <Container>
             <Reveal className="flex items-center gap-3">
-              <span className="kicker">About · DSG</span>
+              <span className="kicker">About · Broadbrand</span>
               <span aria-hidden className="h-px w-16 bg-moss/40" />
               <span className="font-mono text-[0.7rem] tracking-[0.22em] uppercase text-ink/55">
                 The preparation
@@ -99,13 +95,11 @@ export default function AboutPage() {
                 href={`mailto:${siteMeta.contactEmail}`}
                 className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-6 py-3 text-[0.925rem] text-ink/80 hover:border-ink/60 hover:text-ink transition-colors duration-200"
               >
-                Email DSG · {siteMeta.contactEmail}
+                Email Broadbrand · {siteMeta.contactEmail}
               </a>
             </Reveal>
           </Container>
         </section>
-      </main>
-      <Footer />
     </>
   );
 }

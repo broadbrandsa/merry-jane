@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Container } from "@/components/container";
 import { Reveal } from "@/components/reveal";
 import { siteMeta, pillars } from "@/content/site";
@@ -14,12 +15,19 @@ export function Hero() {
       <Container className="relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10">
           <div className="lg:col-span-8 flex flex-col gap-10">
-            <Reveal className="flex items-center gap-3">
+            <Reveal className="flex flex-wrap items-center gap-3">
               <span className="kicker">SA · Apr 2026</span>
               <span aria-hidden className="h-px w-16 bg-moss/40" />
               <span className="font-mono text-[0.6875rem] tracking-[0.22em] uppercase text-ink/55">
-                Prepared by {siteMeta.preparedBy.split(" — ")[0]}
+                Prepared by
               </span>
+              <Image
+                src="/logos/broadbrand.png"
+                alt="Broadbrand"
+                width={12840}
+                height={3210}
+                className="h-4 w-auto opacity-85"
+              />
             </Reveal>
 
             <Reveal delay={80}>
@@ -54,7 +62,7 @@ export function Hero() {
                 </span>
               </a>
               <a
-                href="#roadmap"
+                href="/execution#roadmap"
                 className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-6 py-3 text-[0.925rem] text-ink/80 hover:border-ink/60 hover:text-ink transition-colors duration-200"
               >
                 Skip to the 90-day plan
@@ -67,9 +75,13 @@ export function Hero() {
               <figure className="border border-ink/12 bg-card/60 backdrop-blur-[2px] rounded-[2px] overflow-hidden">
                 <div className="px-6 pt-6 flex items-center justify-between">
                   <span className="kicker">Prospectus</span>
-                  <span className="font-mono text-[0.65rem] text-ink/45 tracking-widest">
-                    N° 001
-                  </span>
+                  <Image
+                    src="/logos/mj-logo.png"
+                    alt="Merry-Jane"
+                    width={1280}
+                    height={1672}
+                    className="h-10 w-auto opacity-90"
+                  />
                 </div>
                 <figcaption className="px-6 pt-4">
                   <p
@@ -81,14 +93,31 @@ export function Hero() {
                 </figcaption>
                 <div className="px-6 pt-5 pb-6 flex flex-col gap-2">
                   <Row label="Prepared for" value={siteMeta.preparedFor} />
-                  <Row label="Contact" value={siteMeta.contactEmail} />
+                  <Row
+                    label="Contact"
+                    value={
+                      <a
+                        href={`mailto:${siteMeta.contactEmail}`}
+                        className="text-ink/85 hover:text-moss-deep transition-colors"
+                      >
+                        Shakier G.
+                      </a>
+                    }
+                  />
                   <Row label="Region" value="Republic of South Africa" />
                   <Row label="Edition" value="April 2026 · v1" />
                 </div>
-                <div className="border-t border-ink/10 bg-cream/70 px-6 py-3">
-                  <p className="font-mono text-[0.65rem] text-ink/55 tracking-[0.16em] leading-relaxed">
-                    Confidential · subject to SAHPRA-aware legal review before activation.
+                <div className="border-t border-ink/10 bg-cream/70 px-6 py-3 flex items-center justify-between gap-4">
+                  <p className="font-mono text-[0.625rem] text-ink/55 tracking-[0.14em] leading-relaxed">
+                    Confidential · SAHPRA legal review required.
                   </p>
+                  <Image
+                    src="/logos/broadbrand.png"
+                    alt="Broadbrand"
+                    width={12840}
+                    height={3210}
+                    className="h-3 w-auto opacity-75 shrink-0"
+                  />
                 </div>
               </figure>
             </Reveal>
@@ -125,7 +154,7 @@ export function Hero() {
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-4 text-[0.825rem] border-t border-ink/8 first:border-t-0 pt-2 first:pt-0">
       <span className="font-mono text-[0.7rem] text-ink/45 tracking-[0.14em] uppercase">

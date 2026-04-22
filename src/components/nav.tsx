@@ -1,15 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/container";
-import { navLinks, siteMeta } from "@/content/site";
+import { pages, siteMeta } from "@/content/site";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -26,6 +29,9 @@ export function Nav() {
     };
   }, [open]);
 
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+
   return (
     <header
       className={cn(
@@ -36,42 +42,76 @@ export function Nav() {
       )}
     >
       <Container className="flex items-center justify-between gap-6">
-        <Link href="/" aria-label="Merry-Jane — return home" className="flex items-center gap-3">
-          <Mark />
-          <span className="flex flex-col leading-none">
-            <span className="font-display text-[1.15rem] tracking-[-0.01em] text-ink">
-              Merry-Jane
-            </span>
-            <span className="font-mono text-[0.625rem] tracking-[0.22em] uppercase text-moss/80">
-              The Collective
-            </span>
-          </span>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/"
+            aria-label="Merry-Jane — return home"
+            className="group inline-flex items-center"
+          >
+            <Image
+              src="/logos/mj-logo.png"
+              alt="Merry-Jane"
+              width={1280}
+              height={1672}
+              priority
+              className="h-11 w-auto object-contain transition-opacity duration-150 group-hover:opacity-80"
+            />
+          </Link>
+          <span aria-hidden className="h-8 w-px bg-ink/15" />
+          <Image
+            src="/logos/broadbrand.png"
+            alt="Broadbrand"
+            width={12840}
+            height={3210}
+            className="h-7 w-auto"
+          />
+        </div>
 
         <nav
-          aria-label="Sections"
-          className="hidden lg:flex items-center gap-1 text-[0.78rem] tracking-wide"
+          aria-label="Pages"
+          className="hidden lg:flex items-center gap-1 text-[0.82rem] tracking-wide"
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="px-3 py-2 text-ink/70 hover:text-ink transition-colors duration-150"
-            >
-              {link.label}
-            </a>
-          ))}
+          {pages.map((page) => {
+            const active = isActive(page.href);
+            return (
+              <Link
+                key={page.href}
+                href={page.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "relative px-4 py-2 transition-colors duration-150 flex items-center gap-2",
+                  active ? "text-ink" : "text-ink/65 hover:text-ink",
+                )}
+              >
+                <span
+                  className={cn(
+                    "font-mono text-[0.65rem] tracking-[0.2em]",
+                    active ? "text-moss-deep" : "text-moss/70",
+                  )}
+                >
+                  {page.kicker}
+                </span>
+                <span>{page.label}</span>
+                {active && (
+                  <span
+                    aria-hidden
+                    className="absolute left-4 right-4 -bottom-px h-[2px] bg-moss-deep"
+                  />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden lg:flex items-center gap-4">
-          <span className="font-mono text-[0.6875rem] tracking-[0.2em] uppercase text-ink/55">
-            {siteMeta.preparedDate}
+          <span className="font-mono text-[0.6875rem] tracking-[0.2em] uppercase text-ink/45">
+            SA · {siteMeta.preparedDate}
           </span>
           <a
             href={`mailto:${siteMeta.contactEmail}`}
             className="inline-flex items-center gap-2 rounded-full bg-ink text-bone px-4 py-2 text-[0.78rem] hover:bg-moss-deep transition-colors duration-150"
           >
-            Speak with DSG
+            Speak with Broadbrand
             <span aria-hidden className="text-base leading-none">→</span>
           </a>
         </div>
@@ -97,61 +137,67 @@ export function Nav() {
         )}
       >
         <Container className="flex flex-col gap-1 py-8">
-          {navLinks.map((link, i) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="flex items-center justify-between border-b border-ink/10 py-4 text-lg text-ink/90 hover:text-moss-deep transition-colors"
-            >
-              <span className="flex items-center gap-4">
-                <span className="font-mono text-[0.7rem] text-moss/80 tracking-[0.2em]">
-                  {String(i + 1).padStart(2, "0")}
+          <span className="font-mono text-[0.68rem] tracking-[0.2em] uppercase text-ink/45 pb-3">
+            SA · {siteMeta.preparedDate}
+          </span>
+          {pages.map((page) => {
+            const active = isActive(page.href);
+            return (
+              <Link
+                key={page.href}
+                href={page.href}
+                onClick={() => setOpen(false)}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "flex items-center justify-between border-b border-ink/10 py-5 transition-colors",
+                  active ? "text-moss-deep" : "text-ink/90 hover:text-moss-deep",
+                )}
+              >
+                <span className="flex items-center gap-4">
+                  <span
+                    className={cn(
+                      "font-mono text-[0.72rem] tracking-[0.22em]",
+                      active ? "text-moss-deep" : "text-moss/80",
+                    )}
+                  >
+                    {page.kicker}
+                  </span>
+                  <span className="flex flex-col">
+                    <span className="font-display text-2xl leading-tight">
+                      {page.label}
+                    </span>
+                    <span className="text-[0.8rem] text-ink/55 mt-1">
+                      {page.blurb}
+                    </span>
+                  </span>
                 </span>
-                <span className="font-display text-2xl">{link.label}</span>
-              </span>
-              <span aria-hidden className="text-ink/30">→</span>
-            </a>
-          ))}
+                <span aria-hidden className="text-ink/30">
+                  →
+                </span>
+              </Link>
+            );
+          })}
+          <div className="mt-8 flex items-center gap-3 pt-6 border-t border-ink/10">
+            <span className="font-mono text-[0.65rem] tracking-[0.18em] uppercase text-ink/45">
+              Prepared by
+            </span>
+            <Image
+              src="/logos/broadbrand.png"
+              alt="Broadbrand"
+              width={12840}
+              height={3210}
+              className="h-4 w-auto opacity-80"
+            />
+          </div>
           <a
             href={`mailto:${siteMeta.contactEmail}`}
             onClick={() => setOpen(false)}
-            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-ink text-bone px-5 py-3 text-sm"
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-ink text-bone px-5 py-3 text-sm"
           >
-            Speak with DSG <span aria-hidden>→</span>
+            Speak with Broadbrand <span aria-hidden>→</span>
           </a>
         </Container>
       </div>
     </header>
-  );
-}
-
-function Mark() {
-  return (
-    <svg
-      viewBox="0 0 48 48"
-      className="size-10"
-      aria-hidden
-      fill="none"
-    >
-      <circle cx="24" cy="24" r="23" stroke="currentColor" strokeOpacity="0.15" />
-      <path
-        d="M24 9c-4.4 3.6-6.5 8.3-6 13 .3 3.2 2 6 4.5 8 0 0 .2 3-1.5 4.8-1 1.2-3 2.2-5 2.2"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="text-moss-deep"
-      />
-      <path
-        d="M24 9c4.4 3.6 6.5 8.3 6 13-.3 3.2-2 6-4.5 8 0 0-.2 3 1.5 4.8 1 1.2 3 2.2 5 2.2"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="text-moss"
-      />
-      <circle cx="24" cy="24" r="2" fill="currentColor" className="text-ochre" />
-    </svg>
   );
 }

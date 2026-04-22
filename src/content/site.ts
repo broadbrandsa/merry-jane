@@ -2,12 +2,13 @@ export const siteMeta = {
   brand: "Merry-Jane",
   title: "Merry-Jane — Digital Strategy, Influencer, PPC & Social Proposal",
   description:
-    "A compliant digital strategy for South Africa's premier cannabis collective. Prepared by DSG, April 2026.",
+    "A compliant digital strategy for South Africa's premier cannabis collective. Prepared by Broadbrand, April 2026.",
   domain: "merry-jane.com",
   preparedFor: "Merry-Jane",
-  preparedBy: "DSG — Digital Strategy Group",
+  preparedBy: "Broadbrand",
+  preparedByDescriptor: "Brand & digital strategy, Johannesburg · Cape Town",
   preparedDate: "April 2026",
-  contactEmail: "mikee@dsg.co.za",
+  contactEmail: "Shakierg@broadbrand.co.za",
   location: "South Africa",
 } as const;
 
@@ -35,17 +36,25 @@ export const pillars = [
   },
 ] as const;
 
-export const navLinks = [
-  { href: "#market-context", label: "Market" },
-  { href: "#audit", label: "Audit" },
-  { href: "#competitors", label: "Competitors" },
-  { href: "#regulatory", label: "Regulatory" },
-  { href: "#strategy", label: "Strategy" },
-  { href: "#influencer", label: "Influencer" },
-  { href: "#ppc", label: "PPC" },
-  { href: "#organic", label: "Organic" },
-  { href: "#roadmap", label: "90-Day" },
-  { href: "#kpis", label: "KPIs" },
+export const pages = [
+  {
+    href: "/",
+    label: "The Situation",
+    kicker: "I",
+    blurb: "Market, audit, regulatory, competitors.",
+  },
+  {
+    href: "/strategy",
+    label: "The Strategy",
+    kicker: "II",
+    blurb: "Audience, channels, influencer, paid, organic.",
+  },
+  {
+    href: "/execution",
+    label: "The Execution",
+    kicker: "III",
+    blurb: "90-day plan, KPIs, next steps, compliance.",
+  },
 ] as const;
 
 export const marketFacts = [
@@ -73,7 +82,7 @@ export const marketFacts = [
 
 export const legislation = {
   cppaSigned: "28 May 2024",
-  fullFramework: "No earlier than 2027–2028",
-  overarchingBill: "Parliament targeted mid-2027",
-  policyBeforeCabinet: "Expected before Cabinet April 2026",
+  fullFramework: "2027–2028",
+  overarchingBill: "Mid-2027",
+  policyBeforeCabinet: "April 2026",
 } as const;
