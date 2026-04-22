@@ -16,25 +16,19 @@ export function Footer() {
 
       <Container className="relative py-20 md:py-28 grid grid-cols-1 lg:grid-cols-12 gap-14">
         <div className="lg:col-span-5 flex flex-col gap-6">
-          <div className="flex items-center gap-4">
-            <Image
-              src="/logos/mj-logo.png"
-              alt="Merry-Jane"
-              width={1280}
-              height={1672}
-              className="h-16 w-auto brightness-0 invert opacity-95"
-            />
-            <div className="flex flex-col">
-              <span
-                className="font-display text-[2.4rem] leading-none tracking-[-0.03em]"
-                style={{ fontWeight: 360 }}
-              >
-                Merry-Jane
-              </span>
-              <span className="mt-2 font-mono text-[0.65rem] tracking-[0.24em] uppercase text-moss-fog/70">
-                SA · {siteMeta.preparedDate}
-              </span>
-            </div>
+          <div className="flex items-center gap-5">
+            <span className="inline-flex size-20 items-center justify-center rounded-full bg-bone shrink-0">
+              <Image
+                src="/logos/mj-logo.png"
+                alt="Merry-Jane"
+                width={1280}
+                height={1672}
+                className="h-14 w-auto object-contain"
+              />
+            </span>
+            <span className="font-mono text-[0.65rem] tracking-[0.24em] uppercase text-moss-fog/70">
+              SA · {siteMeta.preparedDate}
+            </span>
           </div>
           <p className="text-bone/75 text-[1.05rem] leading-relaxed max-w-lg text-pretty">
             A trusted guide to legal, safe, and meaningful cannabis — where clinical compliance meets community.
@@ -71,14 +65,14 @@ export function Footer() {
       </Container>
 
       <Container className="relative border-t border-bone/10 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-mono text-[0.7rem] tracking-[0.18em] uppercase text-bone/50">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           <span className="shrink-0">Prepared by</span>
           <Image
             src="/logos/broadbrand-white.png"
             alt="Broadbrand"
             width={12840}
             height={3210}
-            className="h-4 w-auto opacity-95"
+            className="h-8 w-auto"
           />
         </div>
         <span className="md:text-right">
