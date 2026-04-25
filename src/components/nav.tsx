@@ -3,19 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Download, FileText, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/container";
 import { downloads, pages, siteMeta } from "@/content/site";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -242,45 +234,74 @@ export function Nav() {
 }
 
 function DownloadsMenu() {
+  const [open, setOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e: MouseEvent) => {
+      if (!wrapperRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
+    <div ref={wrapperRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
         aria-label="Download proposal PDFs"
         title="Downloads"
-        className="inline-flex items-center justify-center rounded-full border border-ink/15 bg-background/70 size-9 text-ink/70 hover:text-ink hover:border-ink/35 transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        aria-expanded={open}
+        className={cn(
+          "inline-flex items-center justify-center rounded-full border border-ink/15 bg-background/70 size-9 text-ink/70 hover:text-ink hover:border-ink/35 transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          open && "border-ink/35 text-ink",
+        )}
       >
         <Download className="size-4" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        sideOffset={10}
-        className="w-[22rem] p-2"
-      >
-        <DropdownMenuLabel className="px-2 pt-2 pb-1 font-mono text-[0.65rem] tracking-[0.2em] uppercase text-moss">
-          Downloads · PDF
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {downloads.map((d) => (
-          <DropdownMenuItem
-            key={d.file}
-            closeOnClick
-            render={
-              <a href={`/downloads/${d.file}`} download className="!px-2 !py-2.5" />
-            }
-          >
-            <FileText className="size-4 text-moss-deep shrink-0 mr-1" />
-            <div className="flex flex-col min-w-0">
-              <span className="text-[0.92rem] leading-tight text-ink/90 truncate font-display tracking-[-0.005em]">
-                {d.title}
-              </span>
-              <span className="text-[0.72rem] leading-tight text-ink/55 mt-1 truncate">
-                {d.blurb} · {d.size}
-              </span>
-            </div>
-            <Download className="size-3.5 text-ink/40 shrink-0 ml-auto" />
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </button>
+      {open && (
+        <div
+          role="menu"
+          className="absolute right-0 top-full mt-3 w-[22rem] origin-top-right rounded-lg border border-ink/10 bg-background shadow-xl ring-1 ring-ink/5 p-2 z-50"
+        >
+          <div className="px-2 pt-1 pb-2 font-mono text-[0.65rem] tracking-[0.2em] uppercase text-moss">
+            Downloads · PDF
+          </div>
+          <div className="h-px bg-ink/10 -mx-2 mb-1" />
+          <ul className="flex flex-col">
+            {downloads.map((d) => (
+              <li key={d.file}>
+                <a
+                  href={`/downloads/${d.file}`}
+                  download
+                  onClick={() => setOpen(false)}
+                  className="flex items-start gap-3 rounded-md px-2 py-2.5 hover:bg-cream/70 transition-colors duration-150"
+                >
+                  <FileText className="size-4 text-moss-deep shrink-0 mt-0.5" />
+                  <span className="flex flex-col min-w-0 flex-1">
+                    <span className="text-[0.92rem] leading-tight text-ink/90 font-display tracking-[-0.005em] truncate">
+                      {d.title}
+                    </span>
+                    <span className="text-[0.72rem] leading-tight text-ink/55 mt-1">
+                      {d.blurb} · {d.size}
+                    </span>
+                  </span>
+                  <Download className="size-3.5 text-ink/40 shrink-0 mt-1" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   );
 }
