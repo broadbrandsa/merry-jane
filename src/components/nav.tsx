@@ -4,10 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Download, FileText, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/container";
-import { pages, siteMeta } from "@/content/site";
+import { downloads, pages, siteMeta } from "@/content/site";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -103,10 +111,11 @@ export function Nav() {
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-3">
           <span className="font-mono text-[0.6875rem] tracking-[0.2em] uppercase text-ink/45">
             SA · {siteMeta.preparedDate}
           </span>
+          <DownloadsMenu />
           <a
             href={`mailto:${siteMeta.contactEmail}`}
             className="inline-flex items-center gap-2 rounded-full bg-ink text-bone px-4 py-2 text-[0.78rem] hover:bg-moss-deep transition-colors duration-150"
@@ -177,6 +186,36 @@ export function Nav() {
               </Link>
             );
           })}
+          <div className="mt-8 pt-6 border-t border-ink/10">
+            <span className="font-mono text-[0.65rem] tracking-[0.18em] uppercase text-ink/45">
+              Downloads
+            </span>
+            <ul className="mt-3 flex flex-col gap-2">
+              {downloads.map((d) => (
+                <li key={d.file}>
+                  <a
+                    href={`/downloads/${d.file}`}
+                    download
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-between gap-3 rounded-md border border-ink/10 px-4 py-3 hover:border-ink/30 hover:bg-cream/60 transition-colors"
+                  >
+                    <span className="flex items-center gap-3 min-w-0">
+                      <FileText className="size-4 text-moss-deep shrink-0" />
+                      <span className="flex flex-col min-w-0">
+                        <span className="text-[0.95rem] text-ink/90 truncate">
+                          {d.title}
+                        </span>
+                        <span className="text-[0.75rem] text-ink/55 truncate">
+                          PDF · {d.size}
+                        </span>
+                      </span>
+                    </span>
+                    <Download className="size-4 text-ink/50 shrink-0" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="mt-8 flex items-center gap-3 pt-6 border-t border-ink/10">
             <span className="font-mono text-[0.65rem] tracking-[0.18em] uppercase text-ink/45">
               Prepared by
@@ -199,5 +238,49 @@ export function Nav() {
         </Container>
       </div>
     </header>
+  );
+}
+
+function DownloadsMenu() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        aria-label="Download proposal PDFs"
+        title="Downloads"
+        className="inline-flex items-center justify-center rounded-full border border-ink/15 bg-background/70 size-9 text-ink/70 hover:text-ink hover:border-ink/35 transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
+        <Download className="size-4" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        sideOffset={10}
+        className="w-[22rem] p-2"
+      >
+        <DropdownMenuLabel className="px-2 pt-2 pb-1 font-mono text-[0.65rem] tracking-[0.2em] uppercase text-moss">
+          Downloads · PDF
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {downloads.map((d) => (
+          <DropdownMenuItem
+            key={d.file}
+            closeOnClick
+            render={
+              <a href={`/downloads/${d.file}`} download className="!px-2 !py-2.5" />
+            }
+          >
+            <FileText className="size-4 text-moss-deep shrink-0 mr-1" />
+            <div className="flex flex-col min-w-0">
+              <span className="text-[0.92rem] leading-tight text-ink/90 truncate font-display tracking-[-0.005em]">
+                {d.title}
+              </span>
+              <span className="text-[0.72rem] leading-tight text-ink/55 mt-1 truncate">
+                {d.blurb} · {d.size}
+              </span>
+            </div>
+            <Download className="size-3.5 text-ink/40 shrink-0 ml-auto" />
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

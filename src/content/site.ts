@@ -80,6 +80,27 @@ export const marketFacts = [
   },
 ] as const;
 
+export const downloads = [
+  {
+    title: "DSG Deck — April 2026 v4",
+    file: "dsg-deck-april-2026-v4.pdf",
+    size: "8.4 MB",
+    blurb: "Master strategy deck.",
+  },
+  {
+    title: "Merry-Jane Digital Proposal",
+    file: "merry-jane-digital-proposal-fr-mjpharma1.pdf",
+    size: "428 KB",
+    blurb: "FR-MJPHARMA1 — full digital proposal.",
+  },
+  {
+    title: "Platform Recommendation (Signed)",
+    file: "merry-jane-platform-recommendation-fr-mjpharma1-signed-vm.pdf",
+    size: "127 KB",
+    blurb: "FR-MJPHARMA1 — signed VM platform memo.",
+  },
+] as const;
+
 export const legislation = {
   cppaSigned: "28 May 2024",
   fullFramework: "2027–2028",
